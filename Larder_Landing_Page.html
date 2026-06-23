@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Larder — Plan meals, shop smart, cook simple</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#F7F4ED;
+    --ink:#20261D;
+    --green:#33503B;
+    --green-deep:#202F25;
+    --amber:#E2A33D;
+    --rust:#BE5B3B;
+    --paper:#FFFFFF;
+    --muted:#6B6A5F;
+    --line:#E5E0D3;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{overflow-x:hidden;}
+  body{
+    font-family:'Work Sans', Arial, sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.01em;}
+
+  /* ===== NAV ===== */
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:26px 0;
+  }
+  .logo{font-family:'Fraunces',Georgia,serif;font-size:24px;font-weight:700;color:var(--green);}
+  .nav-links{display:flex;gap:34px;font-size:14.5px;font-weight:600;color:var(--ink);}
+  .nav-cta{
+    background:var(--rust);color:#fff;font-weight:700;font-size:14px;
+    padding:11px 22px;border-radius:999px;
+  }
+
+  /* ===== HERO ===== */
+  .hero{padding:60px 0 90px;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;
+    color:var(--green);margin-bottom:22px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);}
+  .hero h1{font-size:54px;line-height:1.08;margin-bottom:20px;}
+  .hero h1 em{font-style:italic;color:var(--green);}
+  .hero p.lead{font-size:18px;color:var(--muted);max-width:480px;margin-bottom:30px;}
+  .hero-actions{display:flex;gap:14px;align-items:center;margin-bottom:34px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-weight:700;font-size:15px;padding:15px 26px;border-radius:12px;
+    cursor:pointer;border:none;
+  }
+  .btn-primary{background:var(--rust);color:#fff;}
+  .btn-ghost{background:transparent;color:var(--green);border:1.5px solid var(--green);}
+  .trust-row{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--muted);font-weight:600;}
+  .stars{color:var(--amber);font-size:15px;letter-spacing:1px;}
+  .avatar-stack{display:flex;}
+  .avatar-stack span{
+    width:28px;height:28px;border-radius:50%;border:2px solid var(--bg);
+    margin-left:-8px;display:inline-block;
+  }
+  .avatar-stack span:first-child{margin-left:0;}
+
+  .hero-art{position:relative;display:flex;justify-content:center;}
+  .phone-mock{
+    width:280px;background:var(--green-deep);border-radius:34px;padding:10px;
+    box-shadow:0 40px 70px -25px rgba(32,38,29,.5);
+    position:relative;z-index:2;
+  }
+  .phone-mock .notch{
+    position:absolute;top:10px;left:50%;transform:translateX(-50%);
+    width:90px;height:16px;background:var(--green-deep);border-radius:10px;z-index:3;
+  }
+  .phone-mock .pscreen{
+    background:var(--bg);border-radius:24px;overflow:hidden;padding-top:30px;
+  }
+  .float-card{
+    position:absolute;background:var(--paper);border:1px solid var(--line);
+    border-radius:14px;padding:12px 16px;box-shadow:0 16px 30px -14px rgba(0,0,0,.25);
+    font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:10px;z-index:3;
+  }
+  .float-card .ic{width:30px;height:30px;border-radius:9px;flex:0 0 auto;}
+  .float-1{top:14%;left:-30px;}
+  .float-1 .ic{background:linear-gradient(135deg,var(--amber),var(--rust));}
+  .float-2{bottom:10%;right:-26px;}
+  .float-2 .ic{background:linear-gradient(135deg,#7B9E73,var(--green));}
+  .blob{
+    position:absolute;border-radius:50%;background:radial-gradient(circle,#E6ECE3,transparent 70%);
+    width:420px;height:420px;top:-60px;right:-80px;z-index:0;
+  }
+
+  /* hero phone screen content (mini home screen) */
+  .mini-head{display:flex;justify-content:space-between;align-items:center;padding:0 18px 12px;}
+  .mini-head .g1{width:60px;height:7px;background:var(--line);border-radius:4px;}
+  .mini-head .g2{width:42px;height:11px;background:var(--ink);border-radius:4px;margin-top:6px;}
+  .mini-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--amber),var(--rust));}
+  .mini-search{height:30px;margin:0 18px 14px;background:var(--paper);border:1px solid var(--line);border-radius:10px;}
+  .mini-week{display:flex;gap:6px;margin:0 18px 16px;}
+  .mini-day{flex:1;height:46px;border-radius:9px;background:var(--paper);border:1px solid var(--line);}
+  .mini-day.on{background:var(--green);}
+  .mini-card{
+    margin:0 18px 10px;background:var(--paper);border:1px solid var(--line);
+    border-radius:12px;height:60px;display:flex;align-items:center;gap:10px;padding:0 10px;
+  }
+  .mini-card .th{width:40px;height:40px;border-radius:8px;flex:0 0 auto;}
+  .mini-card .lines{flex:1;}
+  .mini-card .l1{width:70%;height:8px;background:var(--ink);opacity:.8;border-radius:3px;margin-bottom:6px;}
+  .mini-card .l2{width:45%;height:6px;background:var(--line);border-radius:3px;}
+
+  /* ===== LOGOS / SOCIAL PROOF STRIP ===== */
+  .strip{padding:30px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .strip .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;}
+  .strip .label{font-size:12.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+  .strip .stat{font-family:'Fraunces',Georgia,serif;font-size:26px;font-weight:700;color:var(--green);}
+  .strip .stat span{font-size:13px;color:var(--muted);font-weight:600;font-family:'Work Sans';display:block;}
+  .strip-stats{display:flex;gap:46px;}
+
+  /* ===== FEATURES ===== */
+  .section{padding:96px 0;}
+  .section-head{max-width:560px;margin:0 auto 56px;text-align:center;}
+  .section-head h2{font-size:38px;margin-bottom:14px;}
+  .section-head p{color:var(--muted);font-size:16.5px;}
+  .feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .feat-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:18px;
+    padding:30px 24px;position:relative;
+  }
+  .feat-card::before{
+    content:"";position:absolute;top:-5px;left:22px;width:10px;height:10px;
+    border-radius:50%;background:var(--amber);box-shadow:0 1px 2px rgba(0,0,0,.25);
+  }
+  .feat-icon{
+    width:46px;height:46px;border-radius:13px;margin-bottom:18px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .feat-icon svg{width:22px;height:22px;}
+  .feat-card h3{font-size:17px;margin-bottom:8px;}
+  .feat-card p{font-size:14px;color:var(--muted);}
+
+  /* ===== HOW IT WORKS / MID BANNER ===== */
+  .midband{background:var(--green-deep);color:#fff;padding:90px 0;}
+  .midband .wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .midband h2{color:#fff;font-size:34px;margin-bottom:18px;}
+  .midband p{color:#C9D2C5;font-size:16px;margin-bottom:26px;max-width:440px;}
+  .step{display:flex;gap:16px;margin-bottom:22px;}
+  .step .num{
+    width:34px;height:34px;border-radius:50%;background:var(--amber);color:var(--green-deep);
+    font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:14px;
+  }
+  .step h4{color:#fff;font-size:15.5px;margin-bottom:3px;}
+  .step p{color:#AEB8AA;font-size:13.5px;margin:0;}
+  .grocery-preview{
+    background:var(--bg);border-radius:18px;padding:24px;color:var(--ink);
+  }
+  .grocery-preview h4{font-family:'Fraunces',Georgia,serif;font-size:16px;margin-bottom:14px;}
+  .gp-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px;}
+  .gp-row .c{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--green);}
+  .gp-row .c.on{background:var(--green);}
+  .gp-row span.t{text-decoration:line-through;color:var(--muted);}
+
+  /* ===== TESTIMONIALS ===== */
+  .test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .test-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:28px;
+  }
+  .test-card .stars{margin-bottom:14px;display:block;}
+  .test-card p.quote{font-size:15px;margin-bottom:20px;}
+  .test-person{display:flex;align-items:center;gap:12px;}
+  .test-person .av{width:38px;height:38px;border-radius:50%;flex:0 0 auto;}
+  .test-person .name{font-weight:700;font-size:14px;}
+  .test-person .role{font-size:12.5px;color:var(--muted);}
+
+  /* ===== CTA BANNER ===== */
+  .cta-band{
+    margin:0 32px 0;border-radius:28px;background:linear-gradient(135deg,var(--green),var(--green-deep));
+    padding:70px 50px;text-align:center;color:#fff;position:relative;overflow:hidden;
+  }
+  .cta-band h2{color:#fff;font-size:36px;margin-bottom:14px;}
+  .cta-band p{color:#C9D2C5;font-size:16px;margin-bottom:30px;}
+  .cta-band .btn-primary{background:var(--amber);color:var(--green-deep);}
+  .cta-wrap-outer{padding:30px 0 96px;}
+
+  /* ===== FOOTER ===== */
+  footer{padding:50px 0 40px;border-top:1px solid var(--line);}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+  footer .logo{margin-bottom:6px;}
+  footer .fcols{display:flex;gap:50px;font-size:14px;}
+  footer .fcols .colgroup h5{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px;}
+  footer .fcols .colgroup a{display:block;margin-bottom:9px;color:var(--ink);font-weight:600;font-size:13.5px;}
+  footer .copyright{font-size:12.5px;color:var(--muted);margin-top:30px;}
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:880px){
+    .wrap{padding:0 20px;}
+    .nav-links{display:none;}
+    .hero-grid{grid-template-columns:1fr;text-align:center;}
+    .hero p.lead{margin-left:auto;margin-right:auto;}
+    .hero-actions{justify-content:center;}
+    .trust-row{justify-content:center;}
+    .hero h1{font-size:38px;}
+    .hero-art{margin-top:20px;}
+    .blob{display:none;}
+    .float-1{left:6px;}
+    .float-2{right:6px;}
+    .strip .wrap{flex-direction:column;text-align:center;}
+    .strip-stats{gap:30px;}
+    .section{padding:64px 0;}
+    .section-head h2{font-size:28px;}
+    .feat-grid{grid-template-columns:1fr 1fr;}
+    .midband .wrap{grid-template-columns:1fr;}
+    .midband{padding:60px 0;}
+    .test-grid{grid-template-columns:1fr;}
+    .cta-band{margin:0 20px;padding:50px 26px;}
+    .cta-band h2{font-size:27px;}
+    footer .wrap{flex-direction:column;align-items:flex-start;}
+    footer .fcols{gap:30px;}
+  }
+  @media (max-width:480px){
+    .feat-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap nav">
+  <div class="logo">Larder</div>
+  <nav class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#testimonials">Reviews</a>
+  </nav>
+  <a class="nav-cta" href="#">Get started</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> NEW · Auto-generated grocery lists</div>
+      <h1>Your week,<br/><em>sorted.</em></h1>
+      <p class="lead">Plan real meals around the week you actually have, then get one tidy grocery list — grouped by aisle, ready in seconds.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary">Get started — it's free</button>
+        <button class="btn btn-ghost">See how it works</button>
+      </div>
+      <div class="trust-row">
+        <div class="avatar-stack">
+          <span style="background:linear-gradient(135deg,#E2A33D,#BE5B3B);"></span>
+          <span style="background:linear-gradient(135deg,#7B9E73,#33503B);"></span>
+          <span style="background:linear-gradient(135deg,#D8C08A,#A8763C);"></span>
+        </div>
+        <span class="stars">★★★★★</span>
+        <span>4.8 from 2,300+ home cooks</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="blob"></div>
+      <div class="float-card float-1"><div class="ic"></div> 35 min · Easy</div>
+      <div class="float-card float-2"><div class="ic"></div> 12 of 18 left</div>
+      <div class="phone-mock">
+        <div class="notch"></div>
+        <div class="pscreen">
+          <div class="mini-head"><div><div class="g1"></div><div class="g2"></div></div><div class="mini-avatar"></div></div>
+          <div class="mini-search"></div>
+          <div class="mini-week">
+            <div class="mini-day on"></div><div class="mini-day"></div><div class="mini-day"></div><div class="mini-day"></div><div class="mini-day"></div>
+          </div>
+          <div class="mini-card"><div class="th" style="background:linear-gradient(135deg,#E2A33D,#BE5B3B);"></div><div class="lines"><div class="l1"></div><div class="l2"></div></div></div>
+          <div class="mini-card"><div class="th" style="background:linear-gradient(135deg,#7B9E73,#33503B);"></div><div class="lines"><div class="l1"></div><div class="l2"></div></div></div>
+          <div class="mini-card"><div class="th" style="background:linear-gradient(135deg,#D8C08A,#A8763C);"></div><div class="lines"><div class="l1"></div><div class="l2"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF STRIP -->
+<section class="strip">
+  <div class="wrap">
+    <div class="label">Trusted by busy home cooks everywhere</div>
+    <div class="strip-stats">
+      <div class="stat">40k+<span>weekly plans made</span></div>
+      <div class="stat">1.2M<span>grocery items checked off</span></div>
+      <div class="stat">4.8★<span>average rating</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Everything you need to actually cook this week</h2>
+      <p>Four small tools that remove the part of cooking that has nothing to do with cooking.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#E6ECE3;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#33503B" stroke-width="1.8"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>
+        </div>
+        <h3>Plan around your real week</h3>
+        <p>Drag recipes onto busy Tuesdays and lazy Sundays alike. Larder flexes with your calendar, not an idealized one.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#FBEEDB;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#BE5B3B" stroke-width="1.8"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.4" fill="#BE5B3B" stroke="none"/><circle cx="4.5" cy="12" r="1.4" fill="#BE5B3B" stroke="none"/><circle cx="4.5" cy="18" r="1.4" fill="#BE5B3B" stroke="none"/></svg>
+        </div>
+        <h3>One list, grouped by aisle</h3>
+        <p>Every ingredient from every recipe in your plan, combined and sorted the way you actually walk through a store.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#F3E7CE;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#A8763C" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </div>
+        <h3>Recipes that go straight to plan</h3>
+        <p>Find something good, tap once, and it's already scheduled — no separate save-for-later pile to forget about.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#E6ECE3;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#33503B" stroke-width="1.8"><path d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h3>Pantry-aware checklists</h3>
+        <p>Already have olive oil? Uncheck it before it ever hits the list. Larder only asks you to buy what you need.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS / MIDBAND -->
+<section class="midband" id="how">
+  <div class="wrap">
+    <div>
+      <h2>From "what's for dinner" to done, in three steps</h2>
+      <p>No spreadsheets, no sticky notes on the fridge — just a plan you can actually trust by Wednesday.</p>
+      <div class="step">
+        <div class="num">1</div>
+        <div><h4>Find a recipe you like</h4><p>Browse or search — every recipe shows real prep time up front.</p></div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div><h4>Drop it into your week</h4><p>One tap schedules it to breakfast, lunch, or dinner on any day.</p></div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div><h4>Generate your grocery list</h4><p>Every ingredient, combined and grouped by aisle, in one tap.</p></div>
+      </div>
+    </div>
+    <div class="grocery-preview">
+      <h4>Grocery list · 18 items</h4>
+      <div class="gp-row"><div class="c on"></div><span class="t">Fresh parsley</span></div>
+      <div class="gp-row"><div class="c"></div><span>Roma tomatoes</span></div>
+      <div class="gp-row"><div class="c on"></div><span class="t">Greek yogurt</span></div>
+      <div class="gp-row"><div class="c"></div><span>Basmati rice</span></div>
+      <div class="gp-row" style="border-bottom:none;"><div class="c"></div><span>Chicken thighs</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonials">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Loved by people who actually cook</h2>
+      <p>Real notes from people who use Larder every week.</p>
+    </div>
+    <div class="test-grid">
+      <div class="test-card">
+        <span class="stars">★★★★★</span>
+        <p class="quote">"I went from ordering takeout four nights a week to maybe one. The grocery list alone paid for itself."</p>
+        <div class="test-person">
+          <div class="av" style="background:linear-gradient(135deg,#E2A33D,#BE5B3B);"></div>
+          <div><div class="name">Priya N.</div><div class="role">Bengaluru</div></div>
+        </div>
+      </div>
+      <div class="test-card">
+        <span class="stars">★★★★★</span>
+        <p class="quote">"The aisle grouping sounds small but it cut my shopping trip by fifteen minutes. Every single week."</p>
+        <div class="test-person">
+          <div class="av" style="background:linear-gradient(135deg,#7B9E73,#33503B);"></div>
+          <div><div class="name">Marcus T.</div><div class="role">Austin, TX</div></div>
+        </div>
+      </div>
+      <div class="test-card">
+        <span class="stars">★★★★★</span>
+        <p class="quote">"My saved recipes finally do something instead of just sitting in a folder. Add to plan, done."</p>
+        <div class="test-person">
+          <div class="av" style="background:linear-gradient(135deg,#D8C08A,#A8763C);"></div>
+          <div><div class="name">Aisha K.</div><div class="role">Toronto</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-wrap-outer">
+  <div class="cta-band">
+    <h2>Stop guessing what's for dinner.</h2>
+    <p>Free to start. No credit card. Your first grocery list in under five minutes.</p>
+    <button class="btn btn-primary">Get started — it's free</button>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo">Larder</div>
+      <p style="color:var(--muted);font-size:13.5px;max-width:220px;">Plan meals, shop smart, cook simple.</p>
+    </div>
+    <div class="fcols">
+      <div class="colgroup">
+        <h5>Product</h5>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#testimonials">Reviews</a>
+      </div>
+      <div class="colgroup">
+        <h5>Company</h5>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap copyright">© 2026 Larder. A UX/UI case study project — not a real product.</div>
+</footer>
+
+</body>
+</html>
