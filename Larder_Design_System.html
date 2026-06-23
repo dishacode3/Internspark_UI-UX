@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Larder — Design System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap');
+
+  :root{
+    --bg:#F7F4ED;
+    --ink:#20261D;
+    --green:#33503B;
+    --green-deep:#202F25;
+    --green-pale:#E6ECE3;
+    --amber:#E2A33D;
+    --amber-pale:#FBEEDB;
+    --rust:#BE5B3B;
+    --rust-pale:#F3E7CE;
+    --paper:#FFFFFF;
+    --muted:#6B6A5F;
+    --line:#E5E0D3;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;font-family:'Work Sans', Arial, sans-serif;color:var(--ink);background:var(--bg);
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 36px;}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;}
+  code, .mono{font-family:'JetBrains Mono', monospace;}
+
+  /* ===== COVER ===== */
+  .cover{padding:70px 0 50px;}
+  .cover .kicker{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rust);margin-bottom:14px;}
+  .cover h1{font-size:52px;color:var(--green);margin:0 0 14px;}
+  .cover p{font-size:17px;color:var(--muted);max-width:560px;}
+  .swatch-row{display:flex;margin-top:30px;border-radius:14px;overflow:hidden;box-shadow:0 20px 40px -20px rgba(0,0,0,.25);}
+  .swatch-row div{height:70px;flex:1;}
+
+  section{padding:56px 0;border-top:1px solid var(--line);}
+  .sec-head{margin-bottom:34px;}
+  .sec-head .kicker-tag{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .sec-head h2{font-size:30px;margin:0 0 8px;}
+  .sec-head p{color:var(--muted);font-size:15px;max-width:560px;margin:0;}
+
+  /* ===== COLOR ===== */
+  .color-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .color-card{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--paper);}
+  .color-swatch{height:84px;}
+  .color-info{padding:13px 15px;}
+  .color-info .name{font-weight:700;font-size:13.5px;margin-bottom:3px;}
+  .color-info .hex{font-size:12px;color:var(--muted);}
+  .color-info .use{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.4;}
+
+  /* ===== TYPE ===== */
+  .type-row{display:flex;align-items:baseline;gap:24px;padding:18px 0;border-bottom:1px solid var(--line);}
+  .type-row:last-child{border-bottom:none;}
+  .type-row .meta{width:200px;flex:0 0 auto;}
+  .type-row .meta .label{font-weight:700;font-size:13px;}
+  .type-row .meta .spec{font-size:11.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:3px;}
+  .type-sample{flex:1;}
+
+  /* ===== SPACING ===== */
+  .space-row{display:flex;align-items:center;gap:18px;padding:10px 0;}
+  .space-row .tok{width:70px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--muted);flex:0 0 auto;}
+  .space-row .bar{height:14px;background:var(--green);border-radius:4px;}
+  .space-row .px{width:60px;font-size:12px;color:var(--muted);text-align:right;}
+
+  .radius-grid{display:flex;gap:20px;}
+  .radius-card{text-align:center;}
+  .radius-box{width:80px;height:80px;background:var(--green-pale);border:1.5px solid var(--green);margin-bottom:8px;}
+  .radius-card .lab{font-size:11.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+  /* ===== BUTTONS ===== */
+  .demo-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:18px;}
+  .demo-label{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);width:120px;flex:0 0 auto;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;border:none;cursor:pointer;font-family:'Work Sans';}
+  .btn-primary{background:var(--rust);color:#fff;}
+  .btn-ghost{background:transparent;color:var(--green);border:1.5px solid var(--green);}
+  .btn-lg{font-size:15px;padding:15px 26px;border-radius:12px;}
+  .btn-sm{font-size:13px;padding:10px 18px;border-radius:9px;}
+  .btn-disabled{opacity:.4;cursor:not-allowed;}
+
+  /* ===== FORM ===== */
+  .field-demo{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:13px 16px;font-size:13.5px;color:var(--muted);width:260px;}
+  .field-demo.focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-pale);color:var(--ink);}
+  .check-row{display:flex;align-items:center;gap:10px;font-size:13.5px;}
+  .box-sq{width:19px;height:19px;border-radius:5px;border:1.5px solid var(--green);}
+  .box-sq.on{background:var(--green);}
+  .box-circ{width:19px;height:19px;border-radius:50%;border:1.5px solid var(--green);}
+  .box-circ.on{background:var(--green);}
+  .seg{display:inline-flex;background:var(--line);border-radius:12px;padding:4px;}
+  .seg button{border:none;background:transparent;padding:9px 18px;border-radius:9px;font-weight:700;font-size:13px;color:var(--muted);}
+  .seg button.active{background:var(--paper);color:var(--ink);}
+
+  /* ===== CARDS ===== */
+  .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .index-card{
+    background:var(--paper);border-radius:4px 4px 14px 14px;position:relative;
+    box-shadow:0 1px 0 var(--line), 0 6px 14px -10px rgba(0,0,0,.25);border:1px solid var(--line);
+    padding:14px;display:flex;gap:12px;align-items:center;
+  }
+  .index-card::before{content:"";position:absolute;top:-5px;left:18px;width:10px;height:10px;background:var(--amber);border-radius:50%;box-shadow:0 1px 2px rgba(0,0,0,.3);}
+  .index-card::after{content:"";position:absolute;top:0;left:0;right:0;height:7px;background:repeating-linear-gradient(115deg, var(--bg) 0 6px, transparent 6px 12px);}
+  .index-card .th{width:50px;height:50px;border-radius:8px;flex:0 0 auto;background:linear-gradient(135deg,var(--amber),var(--rust));}
+  .index-card h4{font-size:14px;margin:0 0 4px;}
+  .index-card .meta{font-size:11.5px;color:var(--muted);}
+
+  .feat-card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;position:relative;}
+  .feat-card::before{content:"";position:absolute;top:-5px;left:20px;width:9px;height:9px;border-radius:50%;background:var(--amber);}
+  .feat-card .ic{width:38px;height:38px;border-radius:10px;background:var(--green-pale);margin-bottom:14px;}
+  .feat-card h4{font-size:15px;margin:0 0 6px;}
+  .feat-card p{font-size:12.5px;color:var(--muted);margin:0;}
+
+  .day-card{width:64px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 0;display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .day-card.today{background:var(--green);border-color:var(--green);}
+  .day-card.today .d-name,.day-card.today .d-num{color:#fff;}
+  .day-card .d-name{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;}
+  .day-card .d-num{font-size:15px;font-weight:700;}
+  .day-card .d-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);}
+  .day-card .d-dot.empty{background:var(--line);}
+
+  /* ===== CHIPS / BADGES ===== */
+  .chip{display:inline-flex;align-items:center;gap:5px;background:var(--paper);border:1px solid var(--line);border-radius:999px;font-size:12px;font-weight:600;color:var(--green);padding:6px 11px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:7px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;color:var(--green);}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);}
+  .tag{font-size:9.5px;font-weight:700;color:var(--green);background:var(--green-pale);padding:3px 7px;border-radius:7px;text-transform:uppercase;letter-spacing:.04em;}
+
+  /* ===== NAV ===== */
+  .bottom-nav-demo{display:flex;justify-content:space-around;align-items:center;padding:14px 10px;background:var(--paper);border:1px solid var(--line);border-radius:16px;width:340px;}
+  .nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10.5px;font-weight:600;color:var(--muted);}
+  .nav-item.active{color:var(--green);}
+  .nav-item svg{width:20px;height:20px;}
+
+  footer{padding:50px 0;text-align:center;color:var(--muted);font-size:13px;}
+</style>
+</head>
+<body>
+
+<div class="cover wrap">
+  <div class="kicker">UX/UI Design Internship — Task 3</div>
+  <h1>Larder Design System</h1>
+  <p>The shared visual language behind the Larder app (Task 1) and landing page (Task 2) — colour, type, spacing, and a documented component library.</p>
+  <div class="swatch-row">
+    <div style="background:#33503B;"></div><div style="background:#202F25;"></div><div style="background:#E2A33D;"></div><div style="background:#BE5B3B;"></div><div style="background:#F7F4ED;"></div>
+  </div>
+</div>
+
+<!-- COLOR -->
+<section id="color" class="wrap">
+  <div class="sec-head">
+    <div class="kicker-tag">Foundations</div>
+    <h2>Colour</h2>
+    <p>A warm, kitchen-grounded palette: deep herb green carries the brand, amber and rust are reserved for accents and actions, and a soft paper background keeps everything feeling calm rather than clinical.</p>
+  </div>
+  <div class="color-grid">
+    <div class="color-card"><div class="color-swatch" style="background:#33503B;"></div><div class="color-info"><div class="name">Green</div><div class="hex mono">#33503B</div><div class="use">Brand colour. Headlines, nav active state, primary surfaces.</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#202F25;"></div><div class="color-info"><div class="name">Green Deep</div><div class="hex mono">#202F25</div><div class="use">Dark sections, phone-frame chrome, high-contrast bands.</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#E2A33D;"></div><div class="color-info"><div class="name">Amber</div><div class="hex mono">#E2A33D</div><div class="use">Light accent only — the pin dot, star ratings, highlights.</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#BE5B3B;"></div><div class="color-info"><div class="name">Rust</div><div class="hex mono">#BE5B3B</div><div class="use">Reserved exclusively for primary actions / CTAs.</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#20261D;"></div><div class="color-info"><div class="name">Ink</div><div class="hex mono">#20261D</div><div class="use">Primary text colour.</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#6B6A5F;"></div><div class="color-info"><div class="name">Muted</div><div class="hex mono">#6B6A5F</div><div class="use">Secondary text, captions, metadata.</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#E5E0D3;border:1px solid #ddd;"></div><div class="color-info"><div class="name">Line</div><div class="hex mono">#E5E0D3</div><div class="use">Borders, dividers, dashed empty-state outlines.</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#F7F4ED;border:1px solid #ddd;"></div><div class="color-info"><div class="name">Background</div><div class="hex mono">#F7F4ED</div><div class="use">App and page background. Never pure white.</div></div></div>
+  </div>
+</section>
+
+<!-- TYPE -->
+<section id="type" class="wrap">
+  <div class="sec-head">
+    <div class="kicker-tag">Foundations</div>
+    <h2>Typography</h2>
+    <p>Fraunces (serif) carries every heading for editorial, recipe-card warmth. Work Sans handles all body copy and UI labels so the interface itself stays easy to scan.</p>
+  </div>
+  <div class="type-row"><div class="meta"><div class="label">Display / H1</div><div class="spec">Fraunces 600 · 52px</div></div><div class="type-sample" style="font-family:'Fraunces';font-weight:600;font-size:42px;">Your week, sorted.</div></div>
+  <div class="type-row"><div class="meta"><div class="label">Heading / H2</div><div class="spec">Fraunces 600 · 30px</div></div><div class="type-sample" style="font-family:'Fraunces';font-weight:600;font-size:28px;">Everything you need</div></div>
+  <div class="type-row"><div class="meta"><div class="label">Heading / H3</div><div class="spec">Fraunces 600 · 19px</div></div><div class="type-sample" style="font-family:'Fraunces';font-weight:600;font-size:19px;">Lemon Herb Chicken Bowl</div></div>
+  <div class="type-row"><div class="meta"><div class="label">Body / Large</div><div class="spec">Work Sans 400 · 17px</div></div><div class="type-sample" style="font-size:17px;color:var(--muted);">Plan real meals around the week you actually have.</div></div>
+  <div class="type-row"><div class="meta"><div class="label">Body / Regular</div><div class="spec">Work Sans 400 · 14px</div></div><div class="type-sample" style="font-size:14px;color:var(--ink);">Chicken thighs, garlic cloves, basmati rice.</div></div>
+  <div class="type-row"><div class="meta"><div class="label">Label / Caption</div><div class="spec">Work Sans 700 · 11px · upper</div></div><div class="type-sample" style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);">Good morning</div></div>
+</section>
+
+<!-- SPACING -->
+<section id="spacing" class="wrap">
+  <div class="sec-head">
+    <div class="kicker-tag">Foundations</div>
+    <h2>Spacing &amp; radius</h2>
+    <p>An 4px-based scale keeps padding and gaps consistent across screens; a small set of corner radii gives every surface a clear "type" at a glance.</p>
+  </div>
+  <div class="space-row"><div class="tok">space-1</div><div class="bar" style="width:4px;"></div><div class="px">4px</div></div>
+  <div class="space-row"><div class="tok">space-2</div><div class="bar" style="width:8px;"></div><div class="px">8px</div></div>
+  <div class="space-row"><div class="tok">space-3</div><div class="bar" style="width:12px;"></div><div class="px">12px</div></div>
+  <div class="space-row"><div class="tok">space-4</div><div class="bar" style="width:16px;"></div><div class="px">16px</div></div>
+  <div class="space-row"><div class="tok">space-6</div><div class="bar" style="width:24px;"></div><div class="px">24px</div></div>
+  <div class="space-row"><div class="tok">space-8</div><div class="bar" style="width:32px;"></div><div class="px">32px</div></div>
+  <div class="space-row"><div class="tok">space-12</div><div class="bar" style="width:48px;"></div><div class="px">48px</div></div>
+  <div class="space-row"><div class="tok">space-16</div><div class="bar" style="width:64px;"></div><div class="px">64px</div></div>
+
+  <div style="height:30px;"></div>
+  <div class="radius-grid">
+    <div class="radius-card"><div class="radius-box" style="border-radius:6px;"></div><div class="lab">radius-sm · 6px</div></div>
+    <div class="radius-card"><div class="radius-box" style="border-radius:12px;"></div><div class="lab">radius-md · 12px</div></div>
+    <div class="radius-card"><div class="radius-box" style="border-radius:18px;"></div><div class="lab">radius-lg · 18px</div></div>
+    <div class="radius-card"><div class="radius-box" style="border-radius:999px;"></div><div class="lab">radius-pill</div></div>
+  </div>
+</section>
+
+<!-- BUTTONS -->
+<section id="buttons" class="wrap">
+  <div class="sec-head">
+    <div class="kicker-tag">Components</div>
+    <h2>Buttons</h2>
+    <p>Two variants only. Primary (rust) is reserved for the single most important action on a screen; ghost is for every secondary action. Never use more than one primary button per view.</p>
+  </div>
+  <div class="demo-row"><div class="demo-label">Primary</div><button class="btn btn-primary btn-lg">Get started</button><button class="btn btn-primary btn-sm">Add to plan</button><button class="btn btn-primary btn-lg btn-disabled">Disabled</button></div>
+  <div class="demo-row"><div class="demo-label">Ghost</div><button class="btn btn-ghost btn-lg">See how it works</button><button class="btn btn-ghost btn-sm">Cancel</button><button class="btn btn-ghost btn-lg btn-disabled">Disabled</button></div>
+</section>
+
+<!-- FORM -->
+<section id="form" class="wrap">
+  <div class="sec-head">
+    <div class="kicker-tag">Components</div>
+    <h2>Form &amp; selection controls</h2>
+    <p>Square checkboxes mark ingredients within a recipe; round checkboxes mark grocery items. The shape difference is deliberate — it signals "part of a recipe" vs. "item to buy."</p>
+  </div>
+  <div class="demo-row"><div class="demo-label">Text input</div><div class="field-demo">Search recipes, ingredients…</div><div class="field-demo focus">Lemon</div></div>
+  <div class="demo-row"><div class="demo-label">Checkbox · sq</div><div class="check-row"><div class="box-sq"></div> Garlic cloves</div><div class="check-row"><div class="box-sq on"></div> Chicken thighs</div></div>
+  <div class="demo-row"><div class="demo-label">Checkbox · circ</div><div class="check-row"><div class="box-circ"></div> Roma tomatoes</div><div class="check-row"><div class="box-circ on"></div> Greek yogurt</div></div>
+  <div class="demo-row"><div class="demo-label">Segmented</div><div class="seg"><button class="active">Ingredients</button><button>Steps</button></div></div>
+</section>
+
+<!-- CARDS -->
+<section id="cards" class="wrap">
+  <div class="sec-head">
+    <div class="kicker-tag">Components</div>
+    <h2>Cards</h2>
+    <p>The pinned, torn-edge "index card" is Larder's signature motif — used anywhere a recipe is represented. Feature and day cards share its rounded-corner language without the pin, to keep that detail special.</p>
+  </div>
+  <div class="card-grid">
+    <div class="index-card"><div class="th"></div><div><h4>Roasted Tomato Orzo</h4><div class="meta">25 min · Easy</div></div></div>
+    <div class="feat-card"><div class="ic"></div><h4>Plan around your week</h4><p>Flexes with your real calendar, not an idealized one.</p></div>
+    <div style="display:flex;gap:10px;"><div class="day-card today"><div class="d-name">Mon</div><div class="d-num">16</div><div class="d-dot"></div></div><div class="day-card"><div class="d-name">Tue</div><div class="d-num">17</div><div class="d-dot empty"></div></div></div>
+  </div>
+</section>
+
+<!-- CHIPS -->
+<section id="chips" class="wrap">
+  <div class="sec-head">
+    <div class="kicker-tag">Components</div>
+    <h2>Chips, tags &amp; badges</h2>
+    <p>Small, low-emphasis labels for metadata. Tags (B / L / D) use the brand green at low opacity so they never compete with the rust CTA for attention.</p>
+  </div>
+  <div class="demo-row"><div class="demo-label">Meta chip</div><span class="chip">⏱ 35 min</span><span class="chip">🍽 Serves 4</span></div>
+  <div class="demo-row"><div class="demo-label">Eyebrow</div><span class="eyebrow"><span class="dot"></span> NEW · Auto-generated lists</span></div>
+  <div class="demo-row"><div class="demo-label">Meal tag</div><span class="tag">B</span><span class="tag">L</span><span class="tag">D</span></div>
+</section>
+
+<!-- NAV -->
+<section id="nav" class="wrap">
+  <div class="sec-head">
+    <div class="kicker-tag">Components</div>
+    <h2>Navigation</h2>
+    <p>Bottom nav stays persistent across every logged-in screen so Planner and Grocery List are never more than one tap away.</p>
+  </div>
+  <div class="bottom-nav-demo">
+    <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9h14v-9"/></svg>Home</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Discover</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Planner</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 6h11M9 12h11M9 18h11"/></svg>List</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/></svg>Profile</div>
+  </div>
+</section>
+
+<footer class="wrap">Larder Design System · v1.0 · built for the InternSpark UX/UI case study</footer>
+
+</body>
+</html>
